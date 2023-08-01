@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float jumpForce = 8f;
+    // public float jumpForce = 8f;
     public int maxHealth = 100; // Add max health for the player
 
     private int currentHealth; // Add current health for the player
@@ -65,10 +65,14 @@ public class PlayerInput : MonoBehaviour
 
     public bool GetJumpRequest()
     {
-        bool jump = jumpRequest;
-        jumpRequest = false; // reset jump request
-        return jump;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Jump requested");
+            return true;
+        }
+        return false;
     }
+
 
     public bool GetAttackRequest()
     {

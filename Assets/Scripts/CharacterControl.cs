@@ -3,19 +3,21 @@ using UnityEngine;
 public class CharacterControl : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float gravity = 9.81f;
-    public float jumpForce = 5f;
+    public float jumpForce = 50f;
 
     private PlayerInput playerInput;
-    private CharacterController characterController;
+    private Rigidbody2D rigidbody2D;
     private AttackController attackController;
-    private Vector3 velocity;
+    private AudioController audioController;
+
+    private int jumpCounter = 0; // New counter for tracking jumps
 
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
-        characterController = GetComponent<CharacterController>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
         attackController = GetComponent<AttackController>();
+        audioController = FindObjectOfType<AudioController>();
     }
 
     private void Update()
@@ -28,27 +30,26 @@ public class CharacterControl : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector3 moveDirection = playerInput.GetMoveDirection();
-        moveDirection.y += velocity.y;
-        characterController.Move(moveDirection * Time.deltaTime);
-
-        // Apply gravity
-        if (characterController.isGrounded)
-        {
-            velocity.y = -2f; // small value to ground the player
-        }
-        else
-        {
-            velocity.y -= gravity * Time.deltaTime;
-        }
+        Vector2 moveDirection = playerInput.GetMoveDirection();
+        rigidbody2D.velocity = new Vector2(moveDirection.x * moveSpeed, rigidbody2D.velocity.y);
     }
-
 
     private void HandleJump()
     {
-        if (playerInput.GetJumpRequest() && characterController.isGrounded)
+        // Only allow jump if jumpCounter is 0
+        if (playerInput.GetJumpRequest() && jumpCounter == 0)
         {
-            velocity.y = Mathf.Sqrt(jumpForce * 2f * gravity);
+            rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpCounter++; // Increment jumpCounter
+        }
+    }
+
+    // Reset jumpCounter when character touches ground
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            jumpCounter = 0;
         }
     }
 
@@ -57,6 +58,7 @@ public class CharacterControl : MonoBehaviour
         if (playerInput.GetAttackRequest())
         {
             attackController.InitiateAttack();
+            audioController.PlayAttackSound();
         }
     }
 
@@ -65,6 +67,7 @@ public class CharacterControl : MonoBehaviour
         if (playerInput.GetDefensiveRequest())
         {
             PerformDefensiveManeuver();
+            audioController.PlayDefendSound();
         }
     }
 
