@@ -6,6 +6,7 @@ public class PlayerInput : MonoBehaviour
     public float moveSpeed = 5f;
     public int maxHealth = 100; 
 
+    public bool isDefending = false;
     private int currentHealth; 
     private Vector3 moveDirection;
     private bool jumpRequest;
@@ -79,17 +80,22 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W)) // W for up attack
         {
-            attackDirection = "up";
+            attackDirection = "w";
         }
         else if (Input.GetKeyDown(KeyCode.A)) // A for left attack
         {
-            attackDirection = "left";
+            attackDirection = "a";
         }
         else if (Input.GetKeyDown(KeyCode.S)) // S for down attack
         {
-            attackDirection = "down";
+            attackDirection = "s";
+        }
+        else if (Input.GetKeyDown(KeyCode.D)) // D for right defense
+        {
+            attackDirection = "d";
         }
     }
+
 
     private void HandleDefensiveInput()
     {
@@ -129,9 +135,19 @@ public class PlayerInput : MonoBehaviour
         return defense;
     }
 
+
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        if (isDefending)
+        {
+            // Decrease damage intake by 90%
+            currentHealth -= damage / 10;
+        }
+        else
+        {
+            currentHealth -= damage;
+        }
+
         if (currentHealth <= 0)
         {
             Die();

@@ -9,11 +9,18 @@ public class CharacterControl : MonoBehaviour
     private Rigidbody2D rigidbody2D;
     private AttackController attackController;
     private AudioController audioController;
+    private Animator animator;
+    
+    // Timer for the defensive maneuver
+    private float defendTimer = 0f;
+    // Duration for the defensive maneuver (can be adjusted)
+    public float defendDuration = 3f;
 
     private int jumpCounter = 0;
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         attackController = GetComponent<AttackController>();
@@ -26,6 +33,16 @@ public class CharacterControl : MonoBehaviour
         HandleJump();
         HandleAttack();
         HandleDefensiveManeuver();
+        
+        if (defendTimer > 0)
+        {
+            defendTimer -= Time.deltaTime;
+            if (defendTimer <= 0)
+            {
+                playerInput.isDefending = false; // Reset defending status
+            }
+        }
+        
     }
 
     private void HandleMovement()
@@ -65,6 +82,7 @@ public class CharacterControl : MonoBehaviour
     {
         if (playerInput.GetDefensiveRequest())
         {
+            animator.Play("Scarlett_Defense"); 
             PerformDefensiveManeuver();
             audioController.PlayDefendSound();
         }
@@ -72,6 +90,7 @@ public class CharacterControl : MonoBehaviour
 
     private void PerformDefensiveManeuver()
     {
-        // Implement defensive maneuvers here
+        playerInput.isDefending = true; // Set defending status to true
+        defendTimer = defendDuration; // Set the defense timer
     }
 }

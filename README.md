@@ -55,9 +55,9 @@ The game evolves into an epic saga of conflicts, alliances, rivalries, and a col
 
 https://pimen.itch.io/pixel-battle-effects/download/eyJleHBpcmVzIjoxNjkwOTA3OTAwLCJpZCI6NTc0MDM0fQ%3d%3d.l7dm9ThBC1vN9zA9ySnCIthrA9A%3d
 
-The Chronicles of Destiny is a product of [Game Studio Name]. All characters, storyline, and artwork are the intellectual property of [Game Studio Name]. Any unauthorized use, reproduction, or distribution of this game's content is strictly prohibited.
+The Chronicles of Destiny is a product of me. All characters, storyline, and artwork are the intellectual property of me. Any unauthorized use, reproduction, or distribution of this game's content is strictly prohibited.
 
-For support, inquiries, or feedback, please contact [support@example.com](mailto:support@example.com).
+For support, inquiries, or feedback, please contact [y1chu@ucsd.edu](mailto:y1chu@ucsd.edu).
 
 © 2023 Ingrid Chu. All rights reserved.
 
