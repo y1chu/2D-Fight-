@@ -70,6 +70,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
         {
+            animator.Play("Scarlett_Jump"); 
             jumpRequest = true;
         }
     }
