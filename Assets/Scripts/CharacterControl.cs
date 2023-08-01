@@ -10,7 +10,7 @@ public class CharacterControl : MonoBehaviour
     private AttackController attackController;
     private AudioController audioController;
 
-    private int jumpCounter = 0; // New counter for tracking jumps
+    private int jumpCounter = 0;
 
     private void Start()
     {
@@ -30,21 +30,19 @@ public class CharacterControl : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector2 moveDirection = playerInput.GetMoveDirection();
+        Vector3 moveDirection = playerInput.GetMoveDirection();
         rigidbody2D.velocity = new Vector2(moveDirection.x * moveSpeed, rigidbody2D.velocity.y);
     }
 
     private void HandleJump()
     {
-        // Only allow jump if jumpCounter is 0
         if (playerInput.GetJumpRequest() && jumpCounter == 0)
         {
             rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            jumpCounter++; // Increment jumpCounter
+            jumpCounter++;
         }
     }
 
-    // Reset jumpCounter when character touches ground
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -55,9 +53,10 @@ public class CharacterControl : MonoBehaviour
 
     private void HandleAttack()
     {
-        if (playerInput.GetAttackRequest())
+        string attackDirection = playerInput.GetAttackDirection();
+        if (attackDirection != null)
         {
-            attackController.InitiateAttack();
+            attackController.InitiateAttack(attackDirection);
             audioController.PlayAttackSound();
         }
     }

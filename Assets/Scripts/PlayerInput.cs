@@ -2,21 +2,22 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+    Animator animator;
     public float moveSpeed = 5f;
-    // public float jumpForce = 8f;
-    public int maxHealth = 100; // Add max health for the player
+    public int maxHealth = 100; 
 
-    private int currentHealth; // Add current health for the player
+    private int currentHealth; 
     private Vector3 moveDirection;
     private bool jumpRequest;
-    private bool attackRequest;
+    private string attackDirection;
     private bool defensiveRequest;
     private CharacterController characterController;
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        currentHealth = maxHealth; // Initialize current health to max health
+        currentHealth = maxHealth;
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -27,16 +28,47 @@ public class PlayerInput : MonoBehaviour
         HandleDefensiveInput();
     }
 
-    private void HandleMovementInput()
+    /*private void HandleMovementInput()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
         moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized * moveSpeed;
+    }*/
+    
+    private void HandleMovementInput()
+    {
+        float horizontalInput = 0f;
+        float verticalInput = 0f;
+    
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            horizontalInput = -1f;
+            animator.Play("Scarlett_Idle");
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            horizontalInput = 1f;
+            animator.Play("Scarlett_Run");
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            verticalInput = 1f;
+            animator.Play("Scarlett_Jump");
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            verticalInput = -1f;
+            animator.Play("Scarlett_Crouch");
+        }
+
+        moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized * moveSpeed;
     }
+
 
     private void HandleJumpInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             jumpRequest = true;
         }
@@ -44,15 +76,23 @@ public class PlayerInput : MonoBehaviour
 
     private void HandleAttackInput()
     {
-        if (Input.GetKeyDown(KeyCode.Z)) // Z for attack
+        if (Input.GetKeyDown(KeyCode.W)) // W for up attack
         {
-            attackRequest = true;
+            attackDirection = "up";
+        }
+        else if (Input.GetKeyDown(KeyCode.A)) // A for left attack
+        {
+            attackDirection = "left";
+        }
+        else if (Input.GetKeyDown(KeyCode.S)) // S for down attack
+        {
+            attackDirection = "down";
         }
     }
 
     private void HandleDefensiveInput()
     {
-        if (Input.GetKeyDown(KeyCode.X)) // X for defense
+        if (Input.GetKeyDown(KeyCode.D)) // D for defense
         {
             defensiveRequest = true;
         }
@@ -65,20 +105,20 @@ public class PlayerInput : MonoBehaviour
 
     public bool GetJumpRequest()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (jumpRequest)
         {
             Debug.Log("Jump requested");
+            jumpRequest = false; // reset jump request
             return true;
         }
         return false;
     }
 
-
-    public bool GetAttackRequest()
+    public string GetAttackDirection()
     {
-        bool attack = attackRequest;
-        attackRequest = false; // reset attack request
-        return attack;
+        string direction = attackDirection;
+        attackDirection = null; // reset attack direction
+        return direction;
     }
 
     public bool GetDefensiveRequest()
@@ -88,7 +128,6 @@ public class PlayerInput : MonoBehaviour
         return defense;
     }
 
-    // Added a method for taking damage
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
@@ -98,7 +137,6 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    // Added a method for handling player death
     private void Die()
     {
         // Add logic here for what should happen when the player dies.
