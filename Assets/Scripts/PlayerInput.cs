@@ -90,10 +90,6 @@ public class PlayerInput : MonoBehaviour
         {
             attackDirection = "s";
         }
-        else if (Input.GetKeyDown(KeyCode.D)) // D for right defense
-        {
-            attackDirection = "d";
-        }
     }
 
 

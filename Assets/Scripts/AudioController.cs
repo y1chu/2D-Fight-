@@ -5,33 +5,45 @@ public class AudioController : MonoBehaviour
     public AudioClip[] attackSounds;
     public AudioClip[] defendSounds;
     public AudioClip backgroundMusic;
+    public float soundCooldown = 0.5f; // Cooldown time in seconds
 
-    private AudioSource audioSource;
+    private AudioSource soundEffectsSource;
+    private AudioSource musicSource;
+    private float lastSoundTime;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        if (audioSources.Length < 2)
         {
-            Debug.LogError("No AudioSource component found on the AudioController.");
+            Debug.LogError("Two AudioSources components are required on the AudioController for background music and sound effects.");
+        }
+        else
+        {
+            soundEffectsSource = audioSources[0];
+            musicSource = audioSources[1];
         }
     }
 
     public void PlayAttackSound()
     {
-        if (attackSounds.Length > 0)
+        if (attackSounds.Length > 0 && Time.time >= lastSoundTime + soundCooldown)
         {
+            Debug.Log("Playing attack sound");
             int randomIndex = Random.Range(0, attackSounds.Length);
-            audioSource.PlayOneShot(attackSounds[randomIndex]);
+            soundEffectsSource.PlayOneShot(attackSounds[randomIndex]);
+            lastSoundTime = Time.time;
         }
     }
 
     public void PlayDefendSound()
     {
-        if (defendSounds.Length > 0)
+        Debug.Log("Playing defend sound");
+        if (defendSounds.Length > 0 && Time.time >= lastSoundTime + soundCooldown)
         {
             int randomIndex = Random.Range(0, defendSounds.Length);
-            audioSource.PlayOneShot(defendSounds[randomIndex]);
+            soundEffectsSource.PlayOneShot(defendSounds[randomIndex]);
+            lastSoundTime = Time.time;
         }
     }
 
@@ -39,9 +51,9 @@ public class AudioController : MonoBehaviour
     {
         if (backgroundMusic != null)
         {
-            audioSource.clip = backgroundMusic;
-            audioSource.loop = true;
-            audioSource.Play();
+            musicSource.clip = backgroundMusic;
+            musicSource.loop = true;
+            musicSource.Play();
         }
         else
         {
