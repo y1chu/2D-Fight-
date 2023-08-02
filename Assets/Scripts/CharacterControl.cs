@@ -4,12 +4,14 @@ public class CharacterControl : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 50f;
-
+    public string characterName;
+    
     private PlayerInput playerInput;
     private Rigidbody2D rigidbody2D;
     private AttackController attackController;
     private AudioController audioController;
     private Animator animator;
+    private bool isJumping;
     
     // Timer for the defensive maneuver
     private float defendTimer = 0f;
@@ -20,6 +22,7 @@ public class CharacterControl : MonoBehaviour
 
     private void Start()
     {
+        characterName = gameObject.name;
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -47,8 +50,11 @@ public class CharacterControl : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector3 moveDirection = playerInput.GetMoveDirection();
-        rigidbody2D.velocity = new Vector2(moveDirection.x * moveSpeed, rigidbody2D.velocity.y);
+        if (!isJumping) // Only allow movement if not jumping
+        {
+            Vector3 moveDirection = playerInput.GetMoveDirection();
+            rigidbody2D.velocity = new Vector2(moveDirection.x * moveSpeed, rigidbody2D.velocity.y);
+        }
     }
 
     private void HandleJump()
@@ -57,6 +63,7 @@ public class CharacterControl : MonoBehaviour
         {
             rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpCounter++;
+            IsJumping = true; // Player is jumping
         }
     }
 
@@ -65,6 +72,7 @@ public class CharacterControl : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             jumpCounter = 0;
+            IsJumping = false; // Player is not jumping
         }
     }
 
@@ -82,7 +90,7 @@ public class CharacterControl : MonoBehaviour
     {
         if (playerInput.GetDefensiveRequest())
         {
-            animator.Play("Scarlett_Defense"); 
+            animator.Play(characterName + "_Defense"); 
             PerformDefensiveManeuver();
             audioController.PlayDefendSound();
         }
@@ -93,4 +101,6 @@ public class CharacterControl : MonoBehaviour
         playerInput.isDefending = true; // Set defending status to true
         defendTimer = defendDuration; // Set the defense timer
     }
+    
+    public bool IsJumping { get; private set; }
 }

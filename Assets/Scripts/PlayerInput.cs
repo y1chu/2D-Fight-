@@ -5,6 +5,7 @@ public class PlayerInput : MonoBehaviour
     Animator animator;
     public float moveSpeed = 5f;
     public int maxHealth = 100; 
+    public string characterName;
 
     public bool isDefending = false;
     private int currentHealth; 
@@ -13,12 +14,16 @@ public class PlayerInput : MonoBehaviour
     private string attackDirection;
     private bool defensiveRequest;
     private CharacterController characterController;
+    private CharacterControl characterControl;
 
     private void Start()
     {
+        characterName = gameObject.name;
         characterController = GetComponent<CharacterController>();
         currentHealth = maxHealth;
+        characterControl = GetComponent<CharacterControl>();
         animator = GetComponent<Animator>();
+        
     }
 
     private void Update()
@@ -41,26 +46,21 @@ public class PlayerInput : MonoBehaviour
         float horizontalInput = 0f;
         float verticalInput = 0f;
     
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && !characterControl.IsJumping)
         {
-            horizontalInput = -1f;
-            animator.Play("Scarlett_Idle");
+            animator.Play(characterName + "_Idle");
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow) && !characterControl.IsJumping)
         {
-            horizontalInput = 1f;
-            animator.Play("Scarlett_Run");
+            animator.Play(characterName + "_Run");
         }
-
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            verticalInput = 1f;
-            animator.Play("Scarlett_Jump");
+            animator.Play(characterName + "_Jump");
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            verticalInput = -1f;
-            animator.Play("Scarlett_Crouch");
+            animator.Play(characterName + "_Crouch");
         }
 
         moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized * moveSpeed;
@@ -71,7 +71,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            animator.Play("Scarlett_Jump"); 
+            animator.Play(characterName + "_Jump"); 
             jumpRequest = true;
         }
     }
@@ -148,6 +148,21 @@ public class PlayerInput : MonoBehaviour
         {
             Die();
         }
+    }
+    
+    public void SetJumpRequest(bool jumpRequest)
+    {
+        this.jumpRequest = jumpRequest;
+    }
+    
+    public void SetMoveDirection(Vector3 moveDirection)
+    {
+        this.moveDirection = moveDirection;
+    }
+    
+    public void SetAttackDirection(string attackDirection)
+    {
+        this.attackDirection = attackDirection;
     }
 
     private void Die()

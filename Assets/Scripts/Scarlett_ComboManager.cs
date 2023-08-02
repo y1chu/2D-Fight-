@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scarlett_ComboManager : MonoBehaviour
+public class Scarlett_ComboManager : MonoBehaviour, IComboManager
 {
     private List<string> combos;
 

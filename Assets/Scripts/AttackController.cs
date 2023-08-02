@@ -8,16 +8,18 @@ public class AttackController : MonoBehaviour
     public float attackRate = 2f;
     public Transform attackPoint;
     public LayerMask enemyLayers;
-    private Scarlett_ComboManager scarlettComboManager;
+    private string characterName;
     private string inputSequence = "";
-    private string lastSuccessfulCombo; // This line was missing
+    private string lastSuccessfulCombo;
+    private IComboManager comboManager;
 
     private float nextAttackTime = 0f;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-        scarlettComboManager = GetComponent<Scarlett_ComboManager>();
+        characterName = gameObject.name;
+        comboManager = GetComponent<IComboManager>();
     }
 
     public void InitiateAttack(string direction)
@@ -26,21 +28,20 @@ public class AttackController : MonoBehaviour
 
         if (inputSequence.Length == 4)
         {
-            if (scarlettComboManager.CheckCombo(inputSequence)) // Check combo with the next input
+            if (comboManager.CheckCombo(inputSequence)) 
             {
-                Debug.Log("Scarlett Combo Detected " + inputSequence);
+                Debug.Log(characterName + " Combo Detected " + inputSequence);
                 LastSuccessfulCombo = inputSequence;
-                inputSequence = ""; // Reset the input sequence after performing a combo
-                return; // Return here to skip the normal attack
+                inputSequence = ""; 
+                SpecialAttack(inputSequence);
+                return;
             }
             else
             {
-                // If no combo was detected, keep the latest 3 inputs
                 inputSequence = inputSequence.Substring(inputSequence.Length - 3, 3);
             }
         }
 
-        // If no combo was detected, perform the normal attack
         if (Time.time >= nextAttackTime)
         {
             Attack(direction);
@@ -48,38 +49,15 @@ public class AttackController : MonoBehaviour
         }
     }
 
-
     void SpecialAttack(string combo)
     {
-        Vector3 attackOffset = Vector3.zero;
-        string specialAttackAnimation = "";
+        string specialAttackAnimation = characterName + "_Special_" + combo;
+        // animator.Play(specialAttackAnimation);
 
-        switch (combo)
-        {
-            case "wwww":
-                Debug.Log("Scarlett Special Attack: 4x Up Slash");
-                attackOffset = new Vector3(0, 1, 0); // Update as needed
-                specialAttackAnimation = "Scarlett_Special_UpSlash";
-                break;
-            case "wwas":
-                attackOffset = new Vector3(0, -1, 0); // Update as needed
-                specialAttackAnimation = "Scarlett_Special_DownSlash";
-                break;
-            case "wsaw":
-                attackOffset = new Vector3(-1, 0, 0); // Update as needed
-                specialAttackAnimation = "Scarlett_Special_SideSlash";
-                break;
-        }
-
-        animator.Play(specialAttackAnimation);
-
-        // Use a stronger attack for special attacks
         int specialAttackDamage = attackDamage * 2;
 
-        // Detect enemies in range
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position + attackOffset, attackRange, enemyLayers);
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
 
-        // Damage them
         foreach (Collider enemy in hitEnemies)
         {
             enemy.GetComponent<Enemy>().TakeDamage(specialAttackDamage);
@@ -88,42 +66,18 @@ public class AttackController : MonoBehaviour
 
     void Attack(string direction)
     {
-        // Play an attack animation here if any
+        string attackAnimation = characterName + "_" + direction;
+        Debug.Log(attackAnimation);
+        animator.Play(attackAnimation);
 
-        // Modify the attack point based on direction
-        Vector3 attackOffset = Vector3.zero;
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
 
-        switch (direction)
-        {
-            case "w":
-                attackOffset = new Vector3(0, 1, 0);
-                animator.Play("Scarlett_UpSlash");
-                break;
-            case "s":
-                attackOffset = new Vector3(0, -1, 0);
-                animator.Play("Scarlett_DownSlash");
-                break;
-            case "a":
-                attackOffset = new Vector3(-1, 0, 0);
-                animator.Play("Scarlett_SideSlash");
-                break;
-            case "d":
-                attackOffset = new Vector3(1, 0, 0);
-                // animator.Play("Scarlett_Defense");
-                break;
-        }
-
-        // Detect enemies in range
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position + attackOffset, attackRange, enemyLayers);
-
-        // Damage them
         foreach (Collider enemy in hitEnemies)
         {
             enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
         }
     }
 
-    // Draw the attack range in editor for easy tweaking
     void OnDrawGizmosSelected()
     {
         if (attackPoint == null)
@@ -140,6 +94,6 @@ public class AttackController : MonoBehaviour
     public string LastSuccessfulCombo
     {
         get { return lastSuccessfulCombo ?? ""; }
-        private set { lastSuccessfulCombo = value; } // This setter should be private to control changes to it
+        private set { lastSuccessfulCombo = value; } 
     }
 }
