@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class AttackController : MonoBehaviour
 {
@@ -13,6 +14,14 @@ public class AttackController : MonoBehaviour
     private string lastSuccessfulCombo;
     private IComboManager comboManager;
 
+    // New: Direction-to-Animation Mapping
+    private Dictionary<string, string> directionToAnimation = new Dictionary<string, string> 
+    {
+        { "w", "UpSlash" },
+        { "a", "SideSlash" },
+        { "s", "DownSlash" }// Update as needed
+    };
+
     private float nextAttackTime = 0f;
 
     private void Start()
@@ -26,21 +35,21 @@ public class AttackController : MonoBehaviour
     {
         inputSequence += direction;
 
-        if (inputSequence.Length == 4)
+        /*if (inputSequence.Length == 4)
         {
             if (comboManager.CheckCombo(inputSequence)) 
             {
                 Debug.Log(characterName + " Combo Detected " + inputSequence);
                 LastSuccessfulCombo = inputSequence;
                 inputSequence = ""; 
-                SpecialAttack(inputSequence);
+                // SpecialAttack(inputSequence);
                 return;
             }
             else
             {
                 inputSequence = inputSequence.Substring(inputSequence.Length - 3, 3);
             }
-        }
+        }*/
 
         if (Time.time >= nextAttackTime)
         {
@@ -52,7 +61,7 @@ public class AttackController : MonoBehaviour
     void SpecialAttack(string combo)
     {
         string specialAttackAnimation = characterName + "_Special_" + combo;
-        // animator.Play(specialAttackAnimation);
+        animator.Play(specialAttackAnimation);
 
         int specialAttackDamage = attackDamage * 2;
 
@@ -66,7 +75,7 @@ public class AttackController : MonoBehaviour
 
     void Attack(string direction)
     {
-        string attackAnimation = characterName + "_" + direction;
+        string attackAnimation = characterName + "_" + directionToAnimation[direction];
         Debug.Log(attackAnimation);
         animator.Play(attackAnimation);
 

@@ -27,8 +27,9 @@ public class AIInput : MonoBehaviour
             movementDirection *= -1f;
         }
 
+        float chancePerFrame = 0.005f / (5f * 60f);
         // Randomly jump sometimes
-        if (Random.value < 0.005f) // Adjust this value to make the AI jump more or less frequently (0.01f = 1% chance)
+        if (Random.value < chancePerFrame)
         {
             playerInput.SetJumpRequest(true);
         }

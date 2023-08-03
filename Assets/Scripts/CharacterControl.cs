@@ -5,7 +5,7 @@ public class CharacterControl : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 50f;
     public string characterName;
-    
+
     private PlayerInput playerInput;
     private Rigidbody2D rigidbody2D;
     private AttackController attackController;
@@ -55,6 +55,7 @@ public class CharacterControl : MonoBehaviour
             Vector3 moveDirection = playerInput.GetMoveDirection();
             rigidbody2D.velocity = new Vector2(moveDirection.x * moveSpeed, rigidbody2D.velocity.y);
         }
+        
     }
 
     private void HandleJump()

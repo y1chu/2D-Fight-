@@ -1,14 +1,16 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
     Animator animator;
     public float moveSpeed = 5f;
-    public int maxHealth = 100; 
+    public int maxHealth = 100;
     public string characterName;
+    public bool isAI;
 
     public bool isDefending = false;
-    private int currentHealth; 
+    private int currentHealth;
     private Vector3 moveDirection;
     private bool jumpRequest;
     private string attackDirection;
@@ -23,7 +25,6 @@ public class PlayerInput : MonoBehaviour
         currentHealth = maxHealth;
         characterControl = GetComponent<CharacterControl>();
         animator = GetComponent<Animator>();
-        
     }
 
     private void Update()
@@ -40,26 +41,49 @@ public class PlayerInput : MonoBehaviour
         float verticalInput = Input.GetAxisRaw("Vertical");
         moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized * moveSpeed;
     }*/
-    
+
     private void HandleMovementInput()
     {
         float horizontalInput = 0f;
         float verticalInput = 0f;
-    
+
         if (Input.GetKey(KeyCode.LeftArrow) && !characterControl.IsJumping)
         {
-            animator.Play(characterName + "_Idle");
+            horizontalInput = -1f; // Move Left
+
+            if (isAI)
+            {
+                animator.Play(characterName + "_Run");
+            }
+
+            else
+            {
+                animator.Play(characterName + "_Idle");
+            }
         }
         else if (Input.GetKey(KeyCode.RightArrow) && !characterControl.IsJumping)
         {
-            animator.Play(characterName + "_Run");
+            horizontalInput = 1f; // Move Right
+
+            if (isAI)
+            {
+                animator.Play(characterName + "_Idle");
+            }
+
+            else
+            {
+                animator.Play(characterName + "_Run");
+            }
         }
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
+            verticalInput = 1f; // Move Up
             animator.Play(characterName + "_Jump");
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
+            verticalInput = -1f; // Move Down
             animator.Play(characterName + "_Crouch");
         }
 
@@ -71,7 +95,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            animator.Play(characterName + "_Jump"); 
+            animator.Play(characterName + "_Jump");
             jumpRequest = true;
         }
     }
@@ -110,10 +134,11 @@ public class PlayerInput : MonoBehaviour
     {
         if (jumpRequest)
         {
-            Debug.Log("Jump requested");
+            // Debug.Log("Jump requested");
             jumpRequest = false; // reset jump request
             return true;
         }
+
         return false;
     }
 
@@ -149,17 +174,17 @@ public class PlayerInput : MonoBehaviour
             Die();
         }
     }
-    
+
     public void SetJumpRequest(bool jumpRequest)
     {
         this.jumpRequest = jumpRequest;
     }
-    
+
     public void SetMoveDirection(Vector3 moveDirection)
     {
         this.moveDirection = moveDirection;
     }
-    
+
     public void SetAttackDirection(string attackDirection)
     {
         this.attackDirection = attackDirection;

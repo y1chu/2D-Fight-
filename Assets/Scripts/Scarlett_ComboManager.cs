@@ -9,10 +9,10 @@ public class Scarlett_ComboManager : MonoBehaviour, IComboManager
     {
         combos = new List<string>()
         {
-            "wwas",
-            "wwww",
-            "wsaw",
-            "ssss"
+            // "wwas",
+            // "wwww",
+            // "wsaw",
+            // "ssss"
             // Add more combos as needed
         };
     }
