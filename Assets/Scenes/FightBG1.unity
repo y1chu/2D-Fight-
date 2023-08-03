@@ -961,6 +961,7 @@ MonoBehaviour:
   moveSpeed: 70
   maxHealth: 100
   characterName: Scarlett
+  isAI: 0
   isDefending: 0
 --- !u!114 &1776525247
 MonoBehaviour:
@@ -1600,7 +1601,7 @@ MonoBehaviour:
   attackPoint: {fileID: 1077056679}
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32
 --- !u!114 &1861538139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1669,6 +1670,7 @@ MonoBehaviour:
   moveSpeed: 60
   maxHealth: 100
   characterName: Garland
+  isAI: 1
   isDefending: 0
 --- !u!95 &1861538143
 Animator:
