@@ -61,10 +61,25 @@ using System.Collections; // Required for using Coroutines
 public class HealthController : MonoBehaviour
 {
     public int maxHealth = 100;
-    public Image healthBar; // UI element for health bar
+    public Image healthBar;
 
+    [SerializeField] // This exposes the variable to the inspector without making it public
     private int currentHealth;
+
     private GameController gameController;
+
+    
+    public Enemy AssociatedEnemy
+    {
+        get { return GetComponent<Enemy>(); }
+    }
+    
+    
+    public int CurrentHealth 
+    {
+        get { return currentHealth; }
+        // Remove the setter if you don't want any external scripts to modify health
+    }
 
     void Start()
     {
@@ -74,9 +89,7 @@ public class HealthController : MonoBehaviour
         {
             healthBar.fillAmount = (float)currentHealth / maxHealth;
         }
-
-        // Start the test Coroutine
-        StartCoroutine(TestHealthDecrease());
+        
     }
 
     void Update()
@@ -90,6 +103,8 @@ public class HealthController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        Debug.Log($"Taking {damage} damage. Current health before damage: {currentHealth}");
+    
         currentHealth -= damage;
         currentHealth = Mathf.Max(0, currentHealth); // Ensure health doesn't go negative
 
@@ -113,12 +128,12 @@ public class HealthController : MonoBehaviour
     }
 
     // Test Coroutine
-    IEnumerator TestHealthDecrease()
+    /*IEnumerator TestHealthDecrease()
     {
         while (currentHealth > 0)
         {
             TakeDamage(1); // Decrease health by 1
             yield return new WaitForSeconds(1f); // Wait for 1 second
         }
-    }
+    }*/
 }
