@@ -1,63 +1,41 @@
-# The Chronicles of Destiny
+### Title: Development of a 2D Fighting Game in Unity
 
-## Plot
+#### Original programming work:
+**Project Overview:**  
+This project focuses on creating an engaging 2D fighting game using Unity. The game is a personal venture to explore game development intricacies and is equipped with features that enhance player experience.
 
-The Chronicles of Destiny is an epic adventure game that unfolds in a world of ancient relics, powerful forces, and brave heroes. The story revolves around four distinct characters, each on their own quest, whose destinies intertwine when a mysterious relic is unearthed from a peaceful village, shattering the tranquility and triggering a series of events that threaten the very fabric of reality.
+#### Key Features:
+- **Combo Detector:** Enables players to execute seamless combo moves, enhancing gameplay dynamics.
+- **Special Animation:** Integrated animations that activate during special moves or combos.
+- **Working Hit Boxes:** Implemented hit detection to ensure fairness and competitiveness in fights.
+- **Sound Effects:** Incorporated sound effects that resonate with different actions, hits, and game events.
 
-### 1. Scarlett
+#### Execution:
+The game can be run using the Unity Player. Ensure you have the required Unity version to experience the game in its full essence.
 
-Scarlett, a once humble villager, becomes the central protagonist of the tale. He sets out on an adventurous journey armed with his vibrant red cape to comprehend the relic's power and restore peace to his home. Little does he know that his quest will lead him to meet other remarkable individuals, each with their own unique missions.
+#### Project Status:
+This is an ongoing project, primarily developed as a sandbox to experiment with game development techniques and mechanics in Unity.
 
-### 2. Garland
+```sql
+Reference Sources:
+- Extensively used the Unity documentation and forums to enhance game mechanics and implement advanced features.
 
-Hailing from a lineage of noble knights, Garland's duty as the guardian of the sacred seal is put to the test when the seal is stolen under his watch. Driven by the desire to redeem his family's honor, he embarks on a self-imposed mission to retrieve the stolen artifact. Armed with his sturdy iron shield, Garland remains steadfast in his pursuit.
+Warning for Work Samples:
+Separate Files Containing Libraries, Functions, Etc., Made By Others:
+- Graphics: **Pixel Battle Effects** by Pimen.
+- Audio: **"Those Who Fight" from Final Fantasy VII** by Square Enix.
 
-### 3. Kai
+Listing of Functions Not Originally Authored:
+- None for this project.
 
-A prodigious weapon master, Kai's insatiable quest for knowledge leads him to the discovery of ancient weapons capable of disrupting the balance of power across worlds. Fearful of the chaos that could ensue, he takes it upon himself to secure these potent weapons and prevent them from falling into the wrong hands.
+Significant Reference Sources:
+- Unity documentation.
 
-### 4. Chroma
+Free Libraries Used:
+- The project incorporates various Unity assets and libraries.
 
-Chroma's origin lies in a distant galaxy, where beings harness the power of colors. As the first to control five colors, he is seen as an anomaly and becomes the target of an intergalactic warlord seeking his power. To protect himself, Chroma flees to Earth, concealing his true form and preparing for an inevitable confrontation.
+Use of Another Individual's Library:
+- DOTween.
 
-### The Convergence
-
-Unbeknownst to them, the unearthing of the enigmatic relic in Scarlett's village sets off a chain reaction that affects all four characters' objectives. The relic's resonance triggers a reaction with Garland's stolen seal, a connection with one of Kai's sought-after weapons, and mirrors the energy that Chroma's nemesis desires.
-
-Driven by their missions, all four characters converge at the location of the relic. There, they uncover the truth: the relic houses a primordial entity capable of warping reality and controlling unimaginable power. Realizing the magnitude of the impending threat, they find themselves at odds with each other initially.
-
-### Allies and Adversaries
-
-As the characters clash and vie for control, they learn about each other's aspirations, fears, and responsibilities. Through their interactions, they develop mutual respect and understanding. Eventually, they comprehend that the only way to protect their worlds from chaos is to join forces.
-
-### Uniting Against the Primordial Entity
-
-The game evolves into an epic saga of conflicts, alliances, rivalries, and a collective battle against the primordial entity threatening to unravel their realities. It becomes a tale of courage, honor, duty, and the unyielding spirit to protect what they cherish.
-
-## How to Play
-
-1. Download and install the game from the official website or the designated platform.
-2. Launch the game and select your character from Scarlett, Garland, Kai, or Chroma.
-3. Embark on an exciting adventure, follow your character's individual quest, and uncover the mysteries of the relic and the primordial entity.
-4. Engage in battles, solve puzzles, and make strategic decisions to progress through the game's immersive story.
-5. As the characters' paths converge, forge alliances with other players or NPCs to face the ultimate challenge together.
-6. Experience a gripping narrative, stunning visuals, and engaging gameplay in The Chronicles of Destiny.
-
-## System Requirements
-
-- Platform: PC
-- OS: Windows / macOS
-- Memory: 8 GB RAM
-- Graphics: NVIDIA GTX 960 / AMD Radeon R9 280 or equivalent
-- Storage: 3 GB available space
-
-## Credits
-
-https://pimen.itch.io/pixel-battle-effects/download/eyJleHBpcmVzIjoxNjkwOTA3OTAwLCJpZCI6NTc0MDM0fQ%3d%3d.l7dm9ThBC1vN9zA9ySnCIthrA9A%3d
-
-The Chronicles of Destiny is a product of me. All characters, storyline, and artwork are the intellectual property of me. Any unauthorized use, reproduction, or distribution of this game's content is strictly prohibited.
-
-For support, inquiries, or feedback, please contact [y1chu@ucsd.edu](mailto:y1chu@ucsd.edu).
-
-© 2023 Ingrid Chu. All rights reserved.
-
+Confidential Information:
+Any potential confidential information, if present, has been diligently removed or redacted from the game and associated documentation.
